@@ -32,6 +32,15 @@ const args = yargs
     description: 'Show config settings',
     type: 'boolean'
   })
+  .option('from-pr', {
+    default: true,
+    description: 'Create backport from PR',
+    type: 'boolean'
+  })
+  .option('pr', {
+    description: 'Pull request to backport',
+    type: 'string'
+  })
   .option('sha', {
     description: 'Commit sha to backport',
     type: 'string'

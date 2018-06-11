@@ -8,6 +8,51 @@ function getCommitMessage(message) {
   return message.split('\n')[0].trim();
 }
 
+async function getCommitsPR(owner, repoName, prNum) {
+  const urlArgs = {
+    per_page: 20,
+    access_token: accessToken
+  };
+
+  try {
+    const url = `https://api.github.com/repos/${owner}/${repoName}/pulls/${prNum}/commits?${querystring.stringify(
+      urlArgs
+    )}`;
+    const res = await axios(url);
+    return res.data.map(commit => {
+      const message = getCommitMessage(commit.commit.message);
+      return {
+        message,
+        sha: commit.sha
+      };
+    });
+  } catch (e) {
+    return handleError(e);
+  }
+}
+
+async function getPRs(owner, repoName) {
+  const urlArgs = {
+    per_page: 25,
+    access_token: accessToken
+  };
+
+  try {
+    const url = `https://api.github.com/repos/${owner}/${repoName}/pulls?${querystring.stringify(
+      urlArgs
+    )}`;
+    console.log(url);
+    const res = await axios(url);
+    return res.data
+      .map(pr => {
+        return '' + pr.number;
+      })
+      .sort();
+  } catch (e) {
+    return handleError(e);
+  }
+}
+
 async function getCommits(owner, repoName, author) {
   const urlArgs = {
     per_page: 20,
@@ -99,5 +144,7 @@ module.exports = {
   createPullRequest,
   getCommit,
   getCommits,
+  getPRs,
+  getCommitsPR,
   getPullRequestByCommit
 };

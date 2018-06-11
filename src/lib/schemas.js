@@ -18,6 +18,8 @@ const projectConfig = Joi.object().keys({
   branches: branchesSchema,
   own: Joi.bool(),
   multipleCommits: Joi.bool(),
+  fromPr: Joi.bool(),
+  showConfig: Joi.bool(),
   multipleBranches: Joi.bool(),
   labels: Joi.array().items(Joi.string())
 });

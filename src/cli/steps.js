@@ -1,5 +1,7 @@
 const github = require('../lib/github');
 const {
+  getPRByPrompt,
+  getCommitsInPR,
   getCommitByPrompt,
   getCommitBySha,
   getBranchesByPrompt,
@@ -13,14 +15,30 @@ async function initSteps(options) {
   github.setAccessToken(options.accessToken);
 
   try {
-    const commits = options.sha
-      ? await getCommitBySha({ owner, repoName, sha: options.sha })
-      : await getCommitByPrompt({
-          owner,
-          repoName,
-          author: options.own ? options.username : null,
-          multipleCommits: options.multipleCommits
-        });
+    let commits;
+    if (options.sha) {
+      commits = await getCommitBySha({ owner, repoName, sha: options.sha });
+    } else if (options.fromPr) {
+      let pr;
+      if (options.pr) {
+        pr = options.pr;
+      } else {
+        pr = await getPRByPrompt(owner, repoName);
+      }
+      commits = await getCommitsInPR({
+        owner,
+        repoName,
+        pr,
+        multipleCommits: options.multipleCommits
+      });
+    } else {
+      commits = await getCommitByPrompt({
+        owner,
+        repoName,
+        author: options.own ? options.username : null,
+        multipleCommits: options.multipleCommits
+      });
+    }
 
     const branches = await getBranchesByPrompt(
       options.branches,

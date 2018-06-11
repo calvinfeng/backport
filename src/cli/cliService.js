@@ -125,6 +125,28 @@ async function maybeSetupRepo(owner, repoName, username) {
   }
 }
 
+async function getCommitsInPR({ owner, repoName, pr, multipleCommits }) {
+  const spinner = ora('Loading commits...').start();
+  try {
+    const commits = await github.getCommitsPR(owner, repoName, pr);
+    if (isEmpty(commits)) {
+      spinner.stopAndPersist({
+        symbol: chalk.green('?'),
+        text: `${chalk.bold('Select commit')} `
+      });
+
+      throw new MissingDataError(
+        chalk.red('There are no commits in this Pull Request')
+      );
+    }
+    spinner.stop();
+    return prompts.listCommits(commits, multipleCommits);
+  } catch (e) {
+    spinner.fail();
+    throw e;
+  }
+}
+
 async function getCommitBySha({ owner, repoName, sha }) {
   const spinner = ora().start();
   try {
@@ -166,6 +188,10 @@ async function getCommitByPrompt({ owner, repoName, author, multipleCommits }) {
   }
 }
 
+async function getPRByPrompt(owner, repoName) {
+  let prs = await github.getPRs(owner, repoName);
+  return prompts.listPRs(prs);
+}
 function getBranchesByPrompt(branches, isMultipleChoice = false) {
   return prompts.listBranches(branches, isMultipleChoice);
 }
@@ -306,7 +332,9 @@ module.exports = {
   getReferenceLong,
   handleErrors,
   maybeSetupRepo,
+  getPRByPrompt,
   getCommitByPrompt,
   getBranchesByPrompt,
+  getCommitsInPR,
   withPullRequest
 };

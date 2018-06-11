@@ -16,6 +16,14 @@ function listProjects(repoNames) {
   });
 }
 
+function listPRs(prs) {
+  return prompt({
+    type: 'list',
+    message: 'Select Pull Request',
+    choices: prs
+  });
+}
+
 async function listCommits(commits, isMultipleChoice) {
   const pageSize = Math.min(10, commits.length);
   const res = await prompt({
@@ -63,5 +71,6 @@ module.exports = {
   confirmConflictResolved,
   listCommits,
   listProjects,
-  listBranches
+  listBranches,
+  listPRs
 };
