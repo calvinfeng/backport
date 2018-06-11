@@ -45,7 +45,7 @@ async function getPRs(owner, repoName) {
     const res = await axios(url);
     return res.data
       .map(pr => {
-        return '' + pr.number;
+        return `${pr.number}`;
       })
       .sort();
   } catch (e) {

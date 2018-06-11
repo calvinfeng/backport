@@ -189,7 +189,7 @@ async function getCommitByPrompt({ owner, repoName, author, multipleCommits }) {
 }
 
 async function getPRByPrompt(owner, repoName) {
-  let prs = await github.getPRs(owner, repoName);
+  const prs = await github.getPRs(owner, repoName);
   return prompts.listPRs(prs);
 }
 function getBranchesByPrompt(branches, isMultipleChoice = false) {

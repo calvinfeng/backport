@@ -1,3 +1,38 @@
+# Fetcher Usage
+
+```
+git clone git@github.com:yangchenyun/backport.git
+cd backport && npm install .
+```
+
+Go to github and create an access token.
+
+```
+{
+  "accessToken": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "username": "yangchenyun",
+  "projects": [
+    {
+      "upstream": "fetchrobotics/fetchcore",
+      "branches": ["2018.5_stable"],  # branch to backport to 
+      "own": false,
+      "fromPr": true,
+      "multipleCommits": true,
+      "multipleBranches": true,
+      "labels": ["Backport"]
+    }
+  ]
+}
+```
+
+```
+backport  // would let you select most recent ones
+// or
+backport --pr=7074  // if you know the pr number to select
+```
+
+If cherry-picking failed, go into `$HOME/.backport` and find the repository to merge conflicts and continue accord to the instruction.
+
 # backport
 
 [![Build Status](https://travis-ci.org/sqren/backport.svg?branch=master)](https://travis-ci.org/sqren/backport)
