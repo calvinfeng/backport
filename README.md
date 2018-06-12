@@ -5,7 +5,7 @@ git clone git@github.com:yangchenyun/backport.git
 cd backport && npm install .
 ```
 
-Go to github and create an access token.
+Go to github and create an access token, and create `~/.backport/config.json`
 
 ```
 {
