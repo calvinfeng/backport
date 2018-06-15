@@ -1,11 +1,14 @@
-# Fetcher Usage
+# For Fetcher Usage
 
 ```
 git clone git@github.com:yangchenyun/backport.git
-cd backport && npm install .
+cd backport && npm install -g .
 ```
 
-Go to github and create an access token, and create `~/.backport/config.json`
+It would create a new directoy `~/.backport` which contains configuration file 
+and repositories used only for backporting.
+
+Go to github and create an access token, and modify or create `~/.backport/config.json`
 
 ```
 {
