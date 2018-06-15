@@ -39,7 +39,7 @@ async function listCommits(commits, isMultipleChoice) {
       .concat(commits.length > pageSize ? new inquirer.Separator() : [])
   });
 
-  const selectedCommits = isMultipleChoice ? res.reverse() : [res];
+  const selectedCommits = isMultipleChoice ? res : [res];
 
   return isEmpty(selectedCommits)
     ? listCommits(commits, isMultipleChoice)

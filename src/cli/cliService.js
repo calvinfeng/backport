@@ -253,7 +253,7 @@ async function cherrypickAndConfirm(owner, repoName, sha) {
   try {
     await withSpinner(
       {
-        text: 'Cherry-picking commit',
+        text: `Cherry-picking commit ${sha.slice(0, 8)}`,
         errorText: `Cherry-picking failed. Please resolve conflicts in: ${getRepoPath(
           owner,
           repoName

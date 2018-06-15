@@ -20,7 +20,9 @@ async function getCommitsPR(owner, repoName, prNum) {
     )}`;
     const res = await axios(url);
     return res.data.map(commit => {
-      const message = getCommitMessage(commit.commit.message);
+      const message = `#${commit.sha.slice(0, 8)} ${getCommitMessage(
+        commit.commit.message
+      )}`;
       return {
         message,
         sha: commit.sha
